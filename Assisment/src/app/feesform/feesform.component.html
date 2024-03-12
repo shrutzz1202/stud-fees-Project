@@ -1,0 +1,81 @@
+<div class="bg-red-900 w-full">
+  <div class="text-left border-round-sm bg-font-bold w-full p-2">
+    <img src="https://images.shiksha.com/mediadata/images/1658383979php6iF5g9.png" class="translate-x-70 h-6rem w-7rem">
+  </div>
+</div><br>
+<div class="grid">
+  <div class="col-6">
+    <p-sidebar [(visible)]="sidebarVisible" position="left" [modal]="false">
+
+      <ng-template pTemplate="header" style="align-items:end;">Add Entry Here!
+      </ng-template>
+      <form [formGroup]="studFees">
+        <div>
+          <div class="field">
+            <label for="name" class="block" color="gray">Name<span class="text-red-500">*</span></label>
+            <input type="text" pInputText formControlName="name"  placeholder="Enter Name" />
+          </div>
+          <div class="field">
+            <label for="Roll No" class="block">Roll No<span class="textred">*</span></label>
+            <p-inputNumber inputId="integeronly" formControlName="rollno" placeholder="add rollno"></p-inputNumber>
+          </div>
+          <div class="field">
+            <label for="Enter Fees" class="block">Enter Fees<span class="textred">*</span></label>
+            <p-inputNumber inputId="integeronly" formControlName="PaidFees" placeholder="Add Fees"></p-inputNumber>
+          </div>
+          <p-toast></p-toast>
+          <p-button label="Submit" (click)="feesform()" [style]="{background:'orangered'}"></p-button>
+
+        </div>
+      </form>
+    </p-sidebar>
+    <p-button (click)="sidebarVisible =true" label="Pay Fees" [style]="{background:'orangered', height:'3rem'}"
+      styleClass="ml-2"></p-button>
+  </div>
+</div>
+<div class="grid">
+  <div class="col">
+    <p-table [value]="newentry" [tableStyle]="{ 'min-width': '50rem'}">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">Name <p-sortIcon field="Name"></p-sortIcon></th>
+          <th pSortableColumn="rollno">Rollno <p-sortIcon field="Rollno"></p-sortIcon></th>
+
+          <th pSortableColumn="PaidFees">Paid Fees <p-sortIcon field="PaidFees"></p-sortIcon></th>
+          <th pSortableColumn="PendingFees">Pending Fees <p-sortIcon field="PendingFees"></p-sortIcon></th>
+          <th pSortableColumn="Actions">Actions</th>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-stud>
+        <tr>
+          <td>{{ stud.name }}</td>
+          <td>{{ stud.rollno }}</td>
+          <td>{{ stud.PaidFees }}</td>
+          <td>{{stud.PendingFees}}</td>
+          <td>
+            <p-button *ngIf="isBtnVisible(stud.PendingFees)" (onClick)="onPayIconClick(stud)"
+              pTooltip="Update Pending Fees" [style]="{background:'orangered'}" [disabled]="stud.PendingFees <= 0"><i
+                class="pi pi-credit-card" style="font-size: 20px;"></i></p-button>&nbsp;
+            <p-confirmDialog ></p-confirmDialog>
+            <p-button pTooltip="Delete" (onClick)="Delete(stud)" [style]="{background:'orangered'}"><i
+                class="pi pi-trash" style="font-size: 20px;"></i></p-button>
+
+          </td>
+
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-sidebar [(visible)]="sidebarvisible" position="right" [modal]="false">
+  <ng-template pTemplate="header">
+
+    Add your PendingFees Here!
+
+  </ng-template>
+  <div>
+    <app-updatefee #studFee (updatePendingFees)="updatePendingValue($event)" [rowData]="currentRowData"></app-updatefee>
+  </div>
+</p-sidebar>

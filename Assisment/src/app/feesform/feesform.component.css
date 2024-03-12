@@ -1,0 +1,15 @@
+.textred{
+    color: orangered;
+}
+
+h3{
+    color: rgb(129, 107, 107);
+    font-size: 20px;
+}
+th{
+    color:brown;
+}
+::ng-deep .p-sidebar-header{
+    display: flex;
+    justify-content: space-between;
+}
